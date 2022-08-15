@@ -29,3 +29,26 @@ function showCountry() {
 
     .catch(showError);
 }
+function renderCountryList(country) {
+  const markup = country
+    .map(({ flags, name }) => {
+      return `<li class="country-item">
+    <img class="country-item__img" src="${flags.svg}" 
+  width="30" alt="flag of ${name.common}"/>
+  <span class="country-item__name">${name.official}</span></li>`;
+    })
+  сountryList.innerHTML = markup;
+}
+
+function renderCountryInfo([{ name, capital, population, flags, languages }]) {
+  const markupInfo = `<img src="${flags.svg}" 
+  width="50" alt="flag of ${name.official}"/>
+  <span class="country-item__name">${name.official}</span>
+  <p class="info">Capital:<span>${capital}</span></p>
+  <p class="info">Population:<span>${population}</span></p>
+  <p class="info">Languages:<span>${Object.values(languages).join(
+    ', '
+  )}</span></p>`;
+
+  countryInfo.innerHTML = markupInfo;
+}
