@@ -10,6 +10,8 @@ const inputSearchBox = document.querySelector(`#search-box`);
 const сountryList = document.querySelector(`.country-list`);
 const countryInfo = document.querySelector(`.country-info`);
 
+inputSearchBox.addEventListener('input', debounce(showCountry, DEBOUNCE_DELAY));
+
 function showCountry() {
   fetchCountries(inputSearchBox.value.trim())
     .then(country => {
@@ -29,6 +31,7 @@ function showCountry() {
 
     .catch(showError);
 }
+
 function renderCountryList(country) {
   const markup = country
     .map(({ flags, name }) => {
@@ -37,6 +40,7 @@ function renderCountryList(country) {
   width="30" alt="flag of ${name.common}"/>
   <span class="country-item__name">${name.official}</span></li>`;
     })
+    .join('');
   сountryList.innerHTML = markup;
 }
 
@@ -52,3 +56,11 @@ function renderCountryInfo([{ name, capital, population, flags, languages }]) {
 
   countryInfo.innerHTML = markupInfo;
 }
+
+function showError(error) {
+  console.log(error);
+  Notiflix.Notify.failure('Oops, there is no country with that name');
+  countryInfo.innerHTML = '';
+  сountryList.innerHTML = '';
+}
+
